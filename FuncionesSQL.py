@@ -33,6 +33,7 @@ class Cancion:
                 break
             except: #se activa cuando ingresa datos erroneos o intenta ingresar una cancion que ya existe.
                 print("Ocurrido un error, por favor digite denuevo.")
+                break
         os.system('cls')
 
     def ModificarCanciones(self):# funcion que permite elegir que atributo de una cancion existente desea cambiar
@@ -59,6 +60,7 @@ class Cancion:
                 break
             except:
                 print("Opcion no valida, digite denuevo.")
+                break
         if (a == '1'):
             self.nombre = input("Digite el nuevo nombre: ")
             self.cursor.execute("UPDATE CANCIONES SET NOMBRE = ? WHERE CODIGO = ? ",(self.nombre,self.codigo,))
@@ -173,6 +175,7 @@ class Cliente:
                 break
             except:
                 print("Ocurrido un error, por favor digite denuevo.")
+                break
         os.system('cls')
 
     def BorrarClientes(self): # borra un cliente luego de ingresar su cedula.
@@ -183,6 +186,7 @@ class Cliente:
                 break
             except:
                 print("Cedula no existente.")
+                break
         self.db.commit()
         os.system('cls')
 
@@ -211,6 +215,7 @@ class Cliente:
                 break
             except:
                 print("Opcion no valida, digite denuevo.")
+                break
         if (a == '1'):
             self.nombre = input("Digite el nuevo nombre: ")
             self.cursor.execute("UPDATE CLIENTES SET NOMBRE = ? WHERE CEDULA = ? ",(self.nombre,self.cedula,))
@@ -366,6 +371,7 @@ class Plan:
                 break
             except:
                 print("Ocurrido un error, por favor digite denuevo.")
+                break
         os.system('cls')
 
     def BorrarPlanes(self):
@@ -376,6 +382,7 @@ class Plan:
                 break
             except:
                 print("Codigo no existente.")
+                break
         self.db.commit()
         os.system('cls')
 
@@ -403,6 +410,7 @@ class Plan:
                 break
             except:
                 print("Opcion no valida, digite denuevo.")
+                break
         if (a == '1'):
             self.nombre = input("Digite el nuevo nombre  del plan: ")
             self.cursor.execute("UPDATE PLANES SET NOMBRE = ? WHERE CODIGO = ? ",(self.nombre,self.codigo,))
@@ -640,6 +648,7 @@ class Lista(Cliente,Cancion):
                 break #asi no borra todos los registros que tenga la cancion sino la que corresponde a ese cliente
             except:
                 print("Codigo no existente1.")
+                break
         self.db.commit()
         EnvioCorreo(self.cursor,self.db,self.cedula)
         os.system('cls')
@@ -744,6 +753,4 @@ class Lista(Cliente,Cancion):
 
         print("Correo enviado con éxito")
         
-    #@staticmethod
-    
-    
+ 
