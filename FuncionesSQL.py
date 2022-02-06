@@ -848,13 +848,13 @@ class PlanesPorCliente(Cliente,Cancion):
                 self.__cedula = input("Digite la cedula del cliente: ")
                 self.cursor.execute("SELECT * FROM PLANESCLIENTE WHERE IDCEDULA = ?",(self.__cedula,))
                 d = self.cursor.fetchall()
-                FMenus.ImprimirTabla("PLANES")
+                FMenus.ImprimirTabla("PLANESCLIENTE")
 
             if (a == 2):
                 self.__plan = input("Digite el codigo del plan : ")
                 self.cursor.execute("SELECT * FROM PLANESCLIENTE WHERE IDPLAN = ?",(self.__plan,))
                 d = self.cursor.fetchall()
-                FMenus.ImprimirTabla("PLANES")
+                FMenus.ImprimirTabla("PLANESCLIENTE")
 
 
             b = 4
