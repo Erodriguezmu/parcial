@@ -10,12 +10,28 @@ class Cancion:
     def __init__(self, database):
         self.db = database
         self.cursor = self.db.cursor()
-        self.codigo=None
-        self.nombre=None
-        self.genero=None
-        self.album=None
-        self.interprete=None
-    def IngresarDatosCancion(self):
+        self.__codigo=None
+        self.__nombre=None
+        self.__genero=None
+        self.__album=None
+        self.__interprete=None
+    def SetCodigo(self):
+        self.__codigo = input("Digite el codigo de la cancion: ")
+    def SetNombre(self):
+        self.__nombre = input("Digite el nombre de la cancion: ")
+    def SetGenero(self):
+        self.__genero = input("Digite el genero de la cancion: ")
+    def SetAlbum(self):
+        self.__album = input("Digite el album de la cancion: ")
+    def SetInterprete(self):
+        self.__interprete = input("Digite el interprete de la cancion: ")
+    def TuplaCancion(self):
+        nueva_cancion = (self.__codigo,self.__nombre,self.__genero,self.__album,self.__interprete) #se crea esta tupla con todos las caracteristicas de la cancion ingresada
+        return nueva_cancion
+
+
+    
+    """def IngresarDatosCancion(self):
          self.codigo = input("Digite el codigo de la nueva cancion: ")
          self.nombre = input("Digite el nombre de la nueva cancion: ")
          self.genero = input("Digite el genero de la nueva cancion: ")
@@ -23,6 +39,7 @@ class Cancion:
          self.interprete = input("Digite el interprete de la nueva cancion: ")
          nueva_cancion = (self.codigo,self.nombre,self.genero,self.album,self.interprete) #se crea esta tupla con todos las caracteristicas de la cancion ingresada
          return nueva_cancion
+    """
         
     def AñadirCanciones(self,nueva_cancion):#Funcion para añadir canciones a la tabla canciones
         while True:
@@ -35,10 +52,8 @@ class Cancion:
                 print("Ocurrido un error, por favor digite denuevo.")
                 break
         os.system('cls')
-
     def ModificarCanciones(self):# funcion que permite elegir que atributo de una cancion existente desea cambiar
-        self.codigo = input("Digite el codigo de la cancion que desee modificar: ")
-        self.cursor.execute("SELECT * FROM CANCIONES WHERE CODIGO = ?",(self.codigo,))
+        self.cursor.execute("SELECT * FROM CANCIONES WHERE CODIGO = ?",(self.__codigo,))
         y = self.cursor.fetchall()
         x = 0
         w = 5 #el tamaño de w esta determinado por la cantidad de atributos que tiene la tabla canciones
@@ -62,19 +77,19 @@ class Cancion:
                 print("Opcion no valida, digite denuevo.")
                 break
         if (a == '1'):
-            self.nombre = input("Digite el nuevo nombre: ")
-            self.cursor.execute("UPDATE CANCIONES SET NOMBRE = ? WHERE CODIGO = ? ",(self.nombre,self.codigo,))
+            self.__nombre = input("Digite el nuevo nombre: ")
+            self.cursor.execute("UPDATE CANCIONES SET NOMBRE = ? WHERE CODIGO = ? ",(self.__nombre,self.__codigo,))
         if (a == '2'):
-            self.genero = input("Digite el nuevo genero: ")
-            self.cursor.execute("UPDATE CANCIONES SET GENERO = ? WHERE CODIGO = ? ",(self.genero,self.codigo,))
+            self.__genero = input("Digite el nuevo genero: ")
+            self.cursor.execute("UPDATE CANCIONES SET GENERO = ? WHERE CODIGO = ? ",(self.__genero,self.__codigo,))
             
         if (a == '3'):
-            self.album = input("Digite el nuevo album: ")
-            self.cursor.execute("UPDATE CANCIONES SET ALBUM = ? WHERE CODIGO = ? ",(self.album,self.codigo,))
+            self.__album = input("Digite el nuevo album: ")
+            self.cursor.execute("UPDATE CANCIONES SET ALBUM = ? WHERE CODIGO = ? ",(self.__album,self.__codigo,))
         
         if (a == '4'):
-            self.interprete = input("Digite el nuevo interprete: ")
-            self.cursor.execute("UPDATE CANCIONES SET INTERPRETE = ? WHERE CODIGO = ? ",(self.interprete,self.codigo,))
+            self.__interprete = input("Digite el nuevo interprete: ")
+            self.cursor.execute("UPDATE CANCIONES SET INTERPRETE = ? WHERE CODIGO = ? ",(self.__interprete,self.__codigo,))
         if (a == '5'):
             pass
         self.db.commit()
@@ -103,32 +118,32 @@ class Cancion:
             d = []
             a = int(input("Digite la opcion de busqueda: "))
             if(a == 1):
-                self.codigo = input("Digite el codigo de la cancion: ")
-                self.cursor.execute("SELECT * FROM CANCIONES WHERE CODIGO = ?",(self.codigo,))
+                self.__codigo = input("Digite el codigo de la cancion: ")
+                self.cursor.execute("SELECT * FROM CANCIONES WHERE CODIGO = ?",(self.__codigo,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CANCIONES")
 
             if (a == 2):
-                self.nombre = input("Digite el nombre de la cancion: ")
-                self.cursor.execute("SELECT * FROM CANCIONES WHERE NOMBRE = ?",(self.nombre,))
+                self.__nombre = input("Digite el nombre de la cancion: ")
+                self.cursor.execute("SELECT * FROM CANCIONES WHERE NOMBRE = ?",(self.__nombre,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CANCIONES")
 
             if (a == 3):
-                self.genero = input("Digite el genero de la cancion: ")
-                self.cursor.execute("SELECT * FROM CANCIONES WHERE GENERO = ?",(self.genero,))
+                self.__genero = input("Digite el genero de la cancion: ")
+                self.cursor.execute("SELECT * FROM CANCIONES WHERE GENERO = ?",(self.__genero,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CANCIONES")
 
             if (a == 4):
-                self.album = input("Digite el album de la cancion: ")
-                self.cursor.execute("SELECT * FROM CANCIONES WHERE ALBUM = ?",(self.album,))
+                self.__album = input("Digite el album de la cancion: ")
+                self.cursor.execute("SELECT * FROM CANCIONES WHERE ALBUM = ?",(self.__album,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CANCIONES")
 
             if (a == 5):
-                self.interprete = input("Digite el interprete de la cancion: ")
-                self.cursor.execute("SELECT * FROM CANCIONES WHERE INTERPRETE = ?",(self.interprete,))
+                self.__interprete = input("Digite el interprete de la cancion: ")
+                self.cursor.execute("SELECT * FROM CANCIONES WHERE INTERPRETE = ?",(self.__interprete,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CANCIONES")
 
@@ -152,21 +167,42 @@ class Cliente:
     def __init__(self, database):
         self.db = database
         self.cursor = self.db.cursor()
+        self.__cedula=None
+        self.__nombre=None
+        self.__apellido=None
+        self.__pais=None
+        self.__ciudad=None
+        self.__celular=None
+        self.__fecha=None
+        self.__tarjeta=None
+        self.__estado=None
+        self.__plan=None
+
         pass
-    def IngresarDatosCliente(self):
-        self.cedula = input("Digite la cedula del nuevo/a cliente: ")
-        self.nombre = input("Digite el nombre del nuevo/a cliente: ")
-        self.apellido = input("Digite el apellido del nuevo/a cliente: ")
-        self.pais = input("Digite el pais del nuevo/a cliente: ")
-        self.ciudad = input("Digite la ciudad del nuevo/a cliente: ")
-        self.celular = input("Digite el numero celular del nuevo/a cliente: ")
-        self.fecha = int(input("Digite la fecha de pago (ddmmaa): "))
-        self.tarjeta = input("Digite el numero de tarjeta de credito del nuevo/a cliente: ")
-        self.estado = "pagado" #cuando se añade un nuevo cliente se presume que por lo menos ha pagado el primer mes
-        self.plan = input ("Digite el codigo del plan al que se suscribe este nuevo/a cliente: ")
-        nuevo_cliente = (self.cedula,self.nombre,self.apellido,self.pais,self.ciudad,self.celular,self.fecha,self.tarjeta,self.estado,self.plan) #se crea esta tupla con todos las caracteristicas del cliente ingresado
+    def SetCedula(self):
+        self.__cedula = input("Digite la cedula del cliente: ")
+    def SetNombre(self):
+        self.__nombre = input("Digite el nombre del nuevo/a cliente: ")
+    def SetApellido(self):
+        self.__apellido = input("Digite el apellido del nuevo/a cliente: ")
+    def SetPais(self):
+        self.__pais = input("Digite el pais del nuevo/a cliente: ")
+    def SetCiudad(self):
+        self.__ciudad = input("Digite la ciudad del nuevo/a cliente: ")
+    def SetCelular(self):
+        self.__celular = input("Digite el numero celular del nuevo/a cliente: ")
+    def SetFecha(self):
+        self.__fecha = input("Digite la fecha de pago (ddmmaa): ")
+    def SetTarjeta(self):
+        self.__tarjeta = input("Digite el numero de tarjeta de credito del nuevo/a cliente: ")
+    def SetEstado(self):
+        self.__estado = "pagado"
+    def SetPlan(self):
+        self.__plan = input("Digite el codigo del plan al que se suscribe este nuevo/a cliente: ")
+    def TuplaCliente(self):
+        nuevo_cliente = (self.__cedula,self.__nombre,self.__apellido,self.__pais,self.__ciudad,self.__celular,self.__fecha,self.__tarjeta,self.__estado,self.__plan) #se crea esta tupla con todos las caracteristicas del cliente ingresado
         return nuevo_cliente
-    
+
     def AñadirClientes(self,nuevo_cliente): #añade clientes, es necesario poner los 8 datos
         while True:
             try:
@@ -179,10 +215,10 @@ class Cliente:
         os.system('cls')
 
     def BorrarClientes(self): # borra un cliente luego de ingresar su cedula.
-        self.cedula = input("Digite la cedula del cliente que desea eliminar: ")
+
         while True:
             try:
-                self.cursor.execute("DELETE FROM CLIENTES WHERE CEDULA = ?",(self.cedula,))
+                self.cursor.execute("DELETE FROM CLIENTES WHERE CEDULA = ?",(self.__cedula,))
                 break
             except:
                 print("Cedula no existente.")
@@ -192,8 +228,8 @@ class Cliente:
 
 
     def ModificarClientes(self): #ingresa la cedula y luego pregunta que atributo del cliente desea modificar.
-        self.cedula = input("Digite  la cedula del cliente que desee modificar: ")
-        self.cursor.execute("SELECT * FROM CLIENTES WHERE CEDULA = ?",(self.cedula,))
+        
+        self.cursor.execute("SELECT * FROM CLIENTES WHERE CEDULA = ?",(self.__cedula,))
         y = self.cursor.fetchall()
         x = 0
         w = 10 #el tamaño de w esta determinado por la cantidad de atributos que tiene la tabla clientes
@@ -217,33 +253,30 @@ class Cliente:
                 print("Opcion no valida, digite denuevo.")
                 break
         if (a == '1'):
-            self.nombre = input("Digite el nuevo nombre: ")
-            self.cursor.execute("UPDATE CLIENTES SET NOMBRE = ? WHERE CEDULA = ? ",(self.nombre,self.cedula,))
+            self.__nombre = input("Digite el nuevo nombre: ")
+            self.cursor.execute("UPDATE CLIENTES SET NOMBRE = ? WHERE CEDULA = ? ",(self.__nombre,self.__cedula,))
         if (a == '2'):
-            self.apellido = input("Digite el nuevo apellido: ")
-            self.cursor.execute("UPDATE CLIENTES SET APELLIDO = ? WHERE CEDULA = ? ",(self.apellido,self.cedula,))        
+            self.__apellido = input("Digite el nuevo apellido: ")
+            self.cursor.execute("UPDATE CLIENTES SET APELLIDO = ? WHERE CEDULA = ? ",(self.__apellido,self.__cedula,))        
         if (a == '3'):
-            self.pais = input("Digite el nuevo pais: ")
-            self.cursor.execute("UPDATE CLIENTES SET PAIS = ? WHERE CEDULA = ? ",(self.pais,self.cedula,))    
+            self.__pais = input("Digite el nuevo pais: ")
+            self.cursor.execute("UPDATE CLIENTES SET PAIS = ? WHERE CEDULA = ? ",(self.__pais,self.__cedula,))    
         if (a == '4'):
-            self.ciudad = input("Digite el nuevo ciudad: ")
-            self.cursor.execute("UPDATE CLIENTES SET CIUDAD = ? WHERE CEDULA = ? ",(self.ciudad,self.cedula,))
+            self.__ciudad = input("Digite el nuevo ciudad: ")
+            self.cursor.execute("UPDATE CLIENTES SET CIUDAD = ? WHERE CEDULA = ? ",(self.__ciudad,self.__cedula,))
         if (a == '5'):
-            self.celular = input("Digite el nuevo numero celular: ")
-            self.cursor.execute("UPDATE CLIENTES SET  CELULAR = ? WHERE CEDULA = ? ",(self.celular,self.cedula,))
+            self.__celular = input("Digite el nuevo numero celular: ")
+            self.cursor.execute("UPDATE CLIENTES SET  CELULAR = ? WHERE CEDULA = ? ",(self.__celular,self.__cedula,))
         if (a == '6'):
-            self.fecha = int(input("Digite la nuevo fecha de pago (ddmmaa):  "))
-            self.cursor.execute("UPDATE CLIENTES SET FECHA = ? WHERE CEDULA = ? ",(self.fecha,self.cedula,))
+            self.__fecha = int(input("Digite la nuevo fecha de pago (ddmmaa):  "))
+            self.cursor.execute("UPDATE CLIENTES SET FECHA = ? WHERE CEDULA = ? ",(self.__fecha,self.__cedula,))
         if (a == '7'):
-            self.tarjeta = input("Digite el nuevo tarjeta de credito: ")
-            self.cursor.execute("UPDATE CLIENTES SET NTARJETA = ? WHERE CEDULA = ? ",(self.tarjeta,self.cedula,))
+            self.__tarjeta = input("Digite el nuevo tarjeta de credito: ")
+            self.cursor.execute("UPDATE CLIENTES SET NTARJETA = ? WHERE CEDULA = ? ",(self.__tarjeta,self.__cedula,))
         if (a == '8'):
-            self.estado = input("digite el estado de pago del cliente [pagado/no pagado]: ")
-            self.cursor.execute("UPDATE CLIENTES SET ESTADO = ? WHERE CEDULA = ? ",(self.estado,self.cedula,))
+            self.__estado = input("digite el estado de pago del cliente [pagado/no pagado]: ")
+            self.cursor.execute("UPDATE CLIENTES SET ESTADO = ? WHERE CEDULA = ? ",(self.__estado,self.__cedula,))
         if (a == '9'):
-            self.plan = input("digite el codigo del plan inscrito: ")
-            self.cursor.execute("UPDATE CLIENTES SET ESTADO = ? WHERE CEDULA = ? ",(self.plan,self.cedula,))
-        if (a == '10'):
             pass
         self.db.commit()
         os.system('cls')
@@ -275,61 +308,61 @@ class Cliente:
             d = []
             a = int(input("Digite la opcion de busqueda: "))
             if(a == 1):
-                self.cedula = input("Digite la cedula del/a cliente: ")
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE CEDULA = ?",(self.cedula,))
+                self.__cedula = input("Digite la cedula del/a cliente: ")
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE CEDULA = ?",(self.__cedula,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if (a == 2):
-                self.nombre = input("Digite el nombre del/a cliente: ")
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE NOMBRE = ?",(self.nombre,))
+                self.__nombre = input("Digite el nombre del/a cliente: ")
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE NOMBRE = ?",(self.__nombre,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if (a == 3):
-                self.apellido = input("Digite el apellido del/a cliente: ")
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE APELLIDO = ?",(self.apellido,))
+                self.__apellido = input("Digite el apellido del/a cliente: ")
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE APELLIDO = ?",(self.__apellido,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if (a == 4):
-                self.pais = int(input("Digite el pais del/a cliente: "))
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE PAIS = ?",(self.pais,))
+                self.__pais = int(input("Digite el pais del/a cliente: "))
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE PAIS = ?",(self.__pais,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if (a == 5):
-                self.ciudad = int(input("Digite la ciudad del/a cliente: "))
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE CIUDAD = ?",(self.ciudad,))
+                self.__ciudad = int(input("Digite la ciudad del/a cliente: "))
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE CIUDAD = ?",(self.__ciudad,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if(a == 6):
-                self.celular = int(input("Digite el numero celular del/a cliente: "))
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE CELULAR = ?",(self.celular,))
+                self.__celular = int(input("Digite el numero celular del/a cliente: "))
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE CELULAR = ?",(self.__celular,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if(a == 7):
-                self.fecha = int(input("Digite la fecha del/a cliente(ddmmaa): "))
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE FECHA = ?",(self.fecha,))
+                self.__fecha = int(input("Digite la fecha del/a cliente(ddmmaa): "))
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE FECHA = ?",(self.__fecha,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if(a == 8):
-                self.tarjeta = input("Digite el numero de tarjeta del/a cliente: ")
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE TARJETA = ?",(self.tarjeta,))
+                self.__tarjeta = input("Digite el numero de tarjeta del/a cliente: ")
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE TARJETA = ?",(self.__tarjeta,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
             if(a == 9):
-                self.estado = input("Digite el estado de la cuenta del/a cliente [pagado/no pagado]: ")
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE ESTADO = ?",(self.estado,))
+                self.__estado = input("Digite el estado de la cuenta del/a cliente [pagado/no pagado]: ")
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE ESTADO = ?",(self.__estado,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
             if(a == 10):
-                self.plan = input("Digite el plan de la cuenta del/a cliente : ")
-                self.cursor.execute("SELECT * FROM CLIENTES WHERE ESTADO = ?",(self.plan,))
+                self.__plan = input("Digite el plan de la cuenta del/a cliente : ")
+                self.cursor.execute("SELECT * FROM CLIENTES WHERE ESTADO = ?",(self.__plan,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("CLIENTES")
 
@@ -352,14 +385,21 @@ class Plan:
     def __init__(self, database):
         self.db = database
         self.cursor = self.db.cursor()
+        self.__codigo =None
+        self.__nombre =None
+        self.__valor =None
+        self.__cantidad =None
         pass
-
-    def IngresarDatosPlan(self):
-        self.codigo = input("Digite el codigo del nuevo plan: ")
-        self.nombre = input("Digite el nombre del nuevo plan: ")
-        self.valor = int(input("Digite el valor del nuevo plan: "))
-        self.cantidad = int(input("Digite el la cantidad de canciones disponibles en del nuevo plan: "))
-        nuevo_plan = (self.codigo,self.nombre,self.valor,self.cantidad) #se crea esta tupla con todos las caracteristicas del plan
+    def SetCodigo(self):
+        self.__codigo = input("Digite el codigo del nuevo plan: ")
+    def SetNombre(self):
+        self.__nombre = input("Digite el nombre del nuevo plan: ")
+    def SetValor(self):
+        self.__valor = input("Digite el valor del nuevo plan: ")
+    def SetCantidad(self):
+        self.__cantidad = input("Digite el la cantidad de canciones disponibles en del nuevo plan: ")
+    def TuplaPlan(self):
+        nuevo_plan = (self.__codigo,self.__nombre,self.__valor,self.__cantidad) #se crea esta tupla con todos las caracteristicas del plan
         return nuevo_plan
     
     def AñadirPlanes(self,nuevo_plan): #funcion para añadir planes disponibles para clientes.
@@ -375,10 +415,9 @@ class Plan:
         os.system('cls')
 
     def BorrarPlanes(self):
-        self.codigo = input("Digite el codigo del plan que desea eliminar: ")
         while True:
             try:
-                self.cursor.execute("DELETE FROM PLANES WHERE CODIGO = ?",(self.codigo,))
+                self.cursor.execute("DELETE FROM PLANES WHERE CODIGO = ?",(self.__codigo,))
                 break
             except:
                 print("Codigo no existente.")
@@ -387,8 +426,7 @@ class Plan:
         os.system('cls')
 
     def ModificarPlanes(self):
-        self.codigo = input("Digite el codigo del plan que desee modificar: ")
-        self.cursor.execute("SELECT * FROM PLANES WHERE CODIGO = ?",(self.codigo,))
+        self.cursor.execute("SELECT * FROM PLANES WHERE CODIGO = ?",(self.__codigo,))
         y = self.cursor.fetchall()
         x = 0
         w = 4
@@ -412,15 +450,15 @@ class Plan:
                 print("Opcion no valida, digite denuevo.")
                 break
         if (a == '1'):
-            self.nombre = input("Digite el nuevo nombre  del plan: ")
-            self.cursor.execute("UPDATE PLANES SET NOMBRE = ? WHERE CODIGO = ? ",(self.nombre,self.codigo,))
+            self.__nombre = input("Digite el nuevo nombre  del plan: ")
+            self.cursor.execute("UPDATE PLANES SET NOMBRE = ? WHERE CODIGO = ? ",(self.__nombre,self.__codigo,))
         if (a == '2'):
-            self.valor = int(input("Digite el valor nuevo  del plan: "))
-            self.cursor.execute("UPDATE PLANES SET VALOR = ? WHERE CODIGO = ? ",(self.valor,self.codigo,))
+            self.__valor = int(input("Digite el valor nuevo  del plan: "))
+            self.cursor.execute("UPDATE PLANES SET VALOR = ? WHERE CODIGO = ? ",(self.__valor,self.__codigo,))
             
         if (a == '3'):
-            self.cantidad = int(input("Digite ela nueva cantidad de canciones del plan: "))
-            self.cursor.execute("UPDATE PLANES SET CANTIDAD = ? WHERE CODIGO = ? ",(self.cantidad,self.codigo,))
+            self.__cantidad = int(input("Digite ela nueva cantidad de canciones del plan: "))
+            self.cursor.execute("UPDATE PLANES SET CANTIDAD = ? WHERE CODIGO = ? ",(self.__cantidad,self.__codigo,))
         
         if (a == '4'):
             pass
@@ -448,26 +486,26 @@ class Plan:
             d = []
             a = int(input("Digite la opcion de busqueda: "))
             if(a == 1):
-                self.codigo = input("Digite el codigo del plan: ")
-                self.cursor.execute("SELECT * FROM PLANES WHERE CODIGO = ?",(self.codigo,))
+                self.__codigo = input("Digite el codigo del plan: ")
+                self.cursor.execute("SELECT * FROM PLANES WHERE CODIGO = ?",(self.__codigo,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("PLANES")
 
             if (a == 2):
-                self.nombre = input("Digite el nombre del plan: ")
-                self.cursor.execute("SELECT * FROM PLANES WHERE NOMBRE = ?",(self.nombre,))
+                self.__nombre = input("Digite el nombre del plan: ")
+                self.cursor.execute("SELECT * FROM PLANES WHERE NOMBRE = ?",(self.__nombre,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("PLANES")
 
             if (a == 3):
-                self.valor = int(input("Digite el valor del plan: "))
-                self.cursor.execute("SELECT * FROM PLANES WHERE VALOR = ?",(self.valor,))
+                self.__valor = int(input("Digite el valor del plan: "))
+                self.cursor.execute("SELECT * FROM PLANES WHERE VALOR = ?",(self.__valor,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("PLANES")
 
             if (a == 4):
-                self.cantidad = int(input("Digite el cantidad del plan: "))
-                self.cursor.execute("SELECT * FROM PLANES WHERE CANTIDAD = ?",(self.cantidad,))
+                self.__cantidad = int(input("Digite el cantidad del plan: "))
+                self.cursor.execute("SELECT * FROM PLANES WHERE CANTIDAD = ?",(self.__cantidad,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("PLANES")
 
@@ -491,9 +529,13 @@ class Lista(Cliente,Cancion):
     def __init__(self, database):
         self.db = database
         self.cursor = self.db.cursor()
-        self.cedula=None
-        self.codigo=None
+        self.__cedula=None
+        self.__codigo=None
         pass
+    def SetCedula(self):
+        self.__cedula = input("Digite la cedula del cliente: ")
+    def SetCodigo(self):
+        self.__codigo = input("Digite el codigo del plan: ")
 
     def Mostrar(self,tabla): # esta funcion recibe una tabla y la muestra en el orden que seleccione
         print("")
@@ -596,6 +638,22 @@ class Lista(Cliente,Cancion):
             
             FMenus.ImprimirTabla(tabla)
             self.cursor.execute("SELECT * FROM LISTA ORDER BY %s"%(c))
+        elif (tabla == "PLANESCLIENTE"):
+            b = 2
+            print('''
+            1.) idcliente
+            2.) idplan
+            ''')
+            print("")
+            d = input("Digite el orden que desea:")
+            if (d == '1'):
+                c = "IDCEDULA"
+            if (d == '2'):
+                c = "IDPLAN"
+            
+            FMenus.ImprimirTabla(tabla)
+            self.cursor.execute("SELECT * FROM PLANESCLIENTE ORDER BY %s"%(c))
+            
         a = self.cursor.fetchall()
         k = 0
         for i in range(len(a)): #esta operacion sirve para poner | entre los valores mostrados y separarlos para que sea visualmente mas entendible
@@ -613,24 +671,25 @@ class Lista(Cliente,Cancion):
     
     
     def AñadirCancionLista(self):#añade canciones a la tabla canciones cliente, con el id del cliente y el id de la cancion que son la llave compuesta
-        while True:
-            self.cedula = input("Digite la cedula del cliente: ")
-            self.cursor.execute("SELECT * FROM CLIENTES WHERE CEDULA = ?",(self.cedula,))
+        while True:       
+            self.cursor.execute("SELECT * FROM CLIENTES WHERE CEDULA = ?",(self.__cedula,))
             if (len(self.cursor.fetchall()) == 0):
                 print("Cliente no encontrado")
+                break
             else:
                 while True:
-                    self.codigo = input("Digite el codigo de la cancion que desea agregar: ")
-                    self.cursor.execute("SELECT * FROM CANCIONES WHERE CODIGO = ?",(self.codigo,))
+            
+                    self.cursor.execute("SELECT * FROM CANCIONES WHERE CODIGO = ?",(self.__codigo,))
                     if(len(self.cursor.fetchall())==0):
                         print("Cancion no encontrada")
+                        break
                     else:
                         while True:
                             try: 
-                                nueva_CanCliente = (self.cedula,self.codigo)
+                                nueva_CanCliente = (self.__cedula,self.__codigo)
                                 self.cursor.execute("INSERT INTO LISTA(IDCLIENTE, IDCANCION) VALUES(?,?)",nueva_CanCliente)
                                 self.db.commit()
-                                EnvioCorreo(self.cursor,self.db,self.cedula)
+                                EnvioCorreo(self.cursor,self.db,self.__cedula)
                                 break
                             except:
                                 print("ha ocurrido un error, intentelo de nuevo.")
@@ -640,17 +699,15 @@ class Lista(Cliente,Cancion):
         os.system('cls')
                 
     def BorrarCancionesLista(self): #borra canciones de la lista luego de insertar el id de la cancion, luego de ingresar cliente
-        self.cedula = input("Digite la cedula del cliente: ")
         while True:
             try:
-                self.codigo = input("Digite el codigo de la cancion que desea eliminar: ")
-                self.cursor.execute("DELETE FROM LISTA WHERE IDCLIENTE = ? AND IDCANCION = ?",(self.cedula,self.codigo))
+                self.cursor.execute("DELETE FROM LISTA WHERE IDCLIENTE = ? AND IDCANCION = ?",(self.__cedula,self.__codigo))
                 break #asi no borra todos los registros que tenga la cancion sino la que corresponde a ese cliente
             except:
                 print("Codigo no existente1.")
                 break
         self.db.commit()
-        EnvioCorreo(self.cursor,self.db,self.cedula)
+        EnvioCorreo(self.cursor,self.db,self.__cedula)
         os.system('cls')
 
     def ConsultarLista(self):# se cumplen dos opciones de consulta
@@ -672,18 +729,16 @@ class Lista(Cliente,Cancion):
             d = []
             a = int(input("Digite la opcion de busqueda: "))
             if(a == 1):
-                self.cedula = input("Digite la id del cliente : ")
-                self.cursor.execute("SELECT IDCLIENTE,IDCANCION,NOMBRE,INTERPRETE FROM LISTA JOIN CANCIONES ON LISTA.IDCANCION=CANCIONES.CODIGO WHERE IDCLIENTE = ?",(self.cedula,))
+                self.__cedula = input("Digite la id del cliente : ")
+                self.cursor.execute("SELECT IDCLIENTE,IDCANCION,NOMBRE,INTERPRETE FROM LISTA JOIN CANCIONES ON LISTA.IDCANCION=CANCIONES.CODIGO WHERE IDCLIENTE = ?",(self.__cedula,))
                 d = self.cursor.fetchall()#se requirio usar join para consultar ambas tablas y poder extraer tambien el nombre de la cancion y el interprete
                 FMenus.ImprimirTabla("LISTA")
 
             if (a == 2):
-                self.codigo = input("Digite el id de la cancion: ")
-                self.cursor.execute("SELECT IDCLIENTE,IDCANCION,NOMBRE,INTERPRETE FROM LISTA JOIN CANCIONES ON LISTA.IDCANCION=CANCIONES.CODIGO WHERE IDCANCION = ?",(self.codigo,))
+                self.__codigo = input("Digite el id de la cancion: ")
+                self.cursor.execute("SELECT IDCLIENTE,IDCANCION,NOMBRE,INTERPRETE FROM LISTA JOIN CANCIONES ON LISTA.IDCANCION=CANCIONES.CODIGO WHERE IDCANCION = ?",(self.__codigo,))
                 d = self.cursor.fetchall()
                 FMenus.ImprimirTabla("LISTA")
-
-            
 
             b = 4
             k = 0
@@ -702,8 +757,7 @@ class Lista(Cliente,Cancion):
     def ReproducirCancion(self):
         mixer.init()
         d = []
-        self.cedula = input("Digite la id del cliente : ")
-        self.cursor.execute("SELECT IDCLIENTE,IDCANCION,NOMBRE,INTERPRETE FROM LISTA JOIN CANCIONES ON LISTA.IDCANCION=CANCIONES.CODIGO WHERE IDCLIENTE = ?",(self.cedula,))
+        self.cursor.execute("SELECT IDCLIENTE,IDCANCION,NOMBRE,INTERPRETE FROM LISTA JOIN CANCIONES ON LISTA.IDCANCION=CANCIONES.CODIGO WHERE IDCLIENTE = ?",(self.__cedula,))
         d = self.cursor.fetchall()#se requirio usar join para consultar ambas tablas y poder extraer tambien el nombre de la cancion y el interprete
         FMenus.ImprimirTabla("LISTA")
         b = 4
@@ -752,5 +806,69 @@ class Lista(Cliente,Cancion):
         server.quit()
 
         print("Correo enviado con éxito")
-        
- 
+
+
+class PlanesPorCliente(Cliente,Cancion):
+    def __init__(self, database):
+        self.db = database
+        self.cursor = self.db.cursor()
+        self.__cedula=None
+        self.__plan=None
+    def SetCedula(self):
+        self.__cedula = input("Digite la cedula del cliente: ")
+    def SetPlan(self):
+        self.__plan = input("Digite el codigo del plan : ")
+    def AsignarPlan(self):
+        self.cursor.execute("SELECT * FROM PLANESCLIENTE WHERE IDCEDULA = ?",(self.__cedula,))
+        Lista.Mostrar(self,"PLANES")
+        self.__plan = input("Digite el codigo del plan: ")
+        self.cursor.execute("UPDATE PLANESCLIENTE SET IDPLAN = ? WHERE IDCEDULA = ? ",(self.__plan,self.__cedula,))
+        self.db.commit()
+        os.system('cls')
+                    
+    def ConsultarPlan(self):
+        print('''
+        1.) Consulta de todo el modulo.
+        2.) Consulta especifica por uno de los campos.
+        ''')#el primer tipo de consulta muestra todas las canciones guardadas dependiendo del orden que elija el usuario
+        print("")#la segunda opcion permite buscar uno de los registros dependiendo de la opcion elegida
+        m=int(input("Elija el tipo de consulta que desea realizar:"))
+        if(m == 1):
+            Lista.Mostrar(self,"PLANESCLIENTE")# la funcion mostrar imprime los atributos de la tabla para facilitar la comprension de los datos mostrados
+        if(m == 2):
+            print("")
+            print('''
+            1.) Cedula
+            2.) plan 
+            ''')
+            print("")
+            d = []
+            a = int(input("Digite la opcion de busqueda: "))
+            if(a == 1):
+                self.__cedula = input("Digite la cedula del cliente: ")
+                self.cursor.execute("SELECT * FROM PLANESCLIENTE WHERE IDCEDULA = ?",(self.__cedula,))
+                d = self.cursor.fetchall()
+                FMenus.ImprimirTabla("PLANES")
+
+            if (a == 2):
+                self.__plan = input("Digite el codigo del plan : ")
+                self.cursor.execute("SELECT * FROM PLANESCLIENTE WHERE IDPLAN = ?",(self.__plan,))
+                d = self.cursor.fetchall()
+                FMenus.ImprimirTabla("PLANES")
+
+
+            b = 4
+            k = 0
+            for i in range(len(d)): #esta operacion sirve para poner | entre los valores mostrados y separarlos para que sea visualmente mas entendible
+                for j in d[i]:
+                    if (k == b):
+                        k = 0
+                        print("")
+                    print("|",end=" ")
+                    print(j,end=" ")
+                    print("|",end=" ")
+                    k = k + 1
+        wait = input()
+        os.system('cls')
+    
+
