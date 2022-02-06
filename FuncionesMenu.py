@@ -3,8 +3,9 @@ def Menu(): #este es el menu principal donde se elige la tabla que va a ser usad
     print("1.) Canciones")
     print("2.) Clientes")
     print("3.) Planes")
-    print("4.) Lista")
-    print("5.) Salir")
+    print("4.) Canciones por cliente")
+    print("5.) Plan por cliente")
+    print("6.) Salir")
     while True:
         try:
             opcion = int(input("Digite la opción: "))
@@ -56,6 +57,18 @@ def MenuLista(): # solo la opcion lista usa esta tabla ya que no se requiere mod
         except:
             print("Numero no valido, escoga denuevo.")
     return opcion
+def MenuPlanesCliente(): # solo la opcion lista usa esta tabla ya que no se requiere modificar los campos de la lista.
+    print("Seleccione la operacion que desea realizar")
+    print("1.) Cambiar/asignar plan")
+    print("2.) Consultar")
+    print("3.) Salir")
+    while True:
+        try:
+            opcion = int(input("Digite la opción: "))
+            break
+        except:
+            print("Numero no valido, escoga denuevo.")
+    return opcion
     
     
 def MenuCanciones(): #este menu es llamado cuando se requiere que se vean los atributos de CANCIONES para elegir alguno de ellos
@@ -74,14 +87,14 @@ def MenuClientes(): #este menu es llamado cuando se requiere que se vean los atr
     print("6.) Fecha")
     print("7.) NTARJETA")
     print("8.) ESTADO")
-    print("9.) PLAN")
-    print("10.) Salir")
+    print("9.) Salir")
 
 def MenuPlanes(): #este menu es llamado cuando se requiere que se vean los atributos de PLANES para elegir alguno de ellos
     print("1.) Nombre")
     print("2.) Valor")
     print("3.) Cantidad Canciones")
     print("4.) Salir")
+    
 
 def ImprimirTabla(tabla): # Esta funcion se usa para mostrar los atributos de las tablas antes de mostrar los campos
     if (tabla == "CANCIONES"):
