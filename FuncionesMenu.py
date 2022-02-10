@@ -1,164 +1,124 @@
-import sqlite3
-import smtplib, ssl #libreria para el envio de correo electronico y ssl para conexion segura
-import FuncionesSQL as funciones
-import FuncionesMenu as FMenus
-import os
+def Menu(): #este es el menu principal donde se elige la tabla que va a ser usada.
+    print("Bienvenido, seleccione la operacion que desea realizar")
+    print("1.) Canciones")
+    print("2.) Clientes")
+    print("3.) Planes")
+    print("4.) Canciones por cliente")
+    print("5.) Plan por cliente")
+    print("6.) Salir")
+    while True:
+        try:
+            opcion = int(input("Digite la opción: "))
+            break
+        except:
+            print("Numero no valido, escoga denuevo.")
+    return opcion
 
-database = sqlite3.connect("labasededatospooparcial.db")
+def MenuOpcionesCanciones(): #las 3 primeras tablas usan esta opcion por lo que es llamada luego del menu.
+    print("Seleccione la operacion que desea realizar")
+    print("1.) Añadir")
+    print("2.) Modificar")
+    print("3.) Consultar")
+    print("4.) Salir")
+    while True:
+        try:
+            opcion = int(input("Digite la opción: "))
+            break
+        except:
+            print("Numero no valido, escoga denuevo.")
+    return opcion
 
-lector = database.cursor()
-# Creacion de las tablas necesarias
-try:
+def MenuOpciones(): #las 3 primeras tablas usan esta opcion por lo que es llamada luego del menu.
+    print("Seleccione la operacion que desea realizar")
+    print("1.) Añadir")
+    print("2.) Eliminar")
+    print("3.) Modificar")
+    print("4.) Consultar")
+    print("5.) Salir")
+    while True:
+        try:
+            opcion = int(input("Digite la opción: "))
+            break
+        except:
+            print("Numero no valido, escoga denuevo.")
+    return opcion
+
+def MenuLista(): # solo la opcion lista usa esta tabla ya que no se requiere modificar los campos de la lista.
+    print("Seleccione la operacion que desea realizar")
+    print("1.) Añadir")
+    print("2.) Eliminar")
+    print("3.) Consultar")
+    print("4.) Reproducir Cancion")
+    print("5.) Salir")
+    while True:
+        try:
+            opcion = int(input("Digite la opción: "))
+            break
+        except:
+            print("Numero no valido, escoga denuevo.")
+    return opcion
+def MenuPlanesCliente(): # solo la opcion lista usa esta tabla ya que no se requiere modificar los campos de la lista.
+    print("Seleccione la operacion que desea realizar")
+    print("1.) Cambiar/asignar plan")
+    print("2.) Consultar")
+    print("3.) Salir")
+    while True:
+        try:
+            opcion = int(input("Digite la opción: "))
+            break
+        except:
+            print("Numero no valido, escoga denuevo.")
+    return opcion
     
-    lector.execute("CREATE TABLE CANCIONES (CODIGO CHAR(6) PRIMARY KEY,NOMBRE VARCHAR(30) not null,GENERO VARCHAR(20)not null,ALBUM VARCHAR(30)not null, INTERPRETE VARCHAR(25)not null)ON DELETE CASCADE ON UPDATE CASCADE)")
-except:
-    pass
-
-try:
     
-    lector.execute("CREATE TABLE CLIENTES (CEDULA CHAR(10) PRIMARY KEY,NOMBRE VARCHAR(25)not null,APELLIDO VARCHAR(25)not null, PAIS VARCHAR(20), CIUDAD VARCHAR(20),CELULAR CHAR(10),FECHA INTEGER(7),NTARJETA CHAR(10)not null,ESTADO VARCHAR (8)not null)")
+def MenuCanciones(): #este menu es llamado cuando se requiere que se vean los atributos de CANCIONES para elegir alguno de ellos
+    print("1.) Nombre")
+    print("2.) Genero")
+    print("3.) Album")
+    print("4.) Interprete")
+    print("5.) Cancelar")
+
+def MenuClientes(): #este menu es llamado cuando se requiere que se vean los atributos de CLIENTES para elegir alguno de ellos
+    print("1.) Nombre")
+    print("2.) Apellido")
+    print("3.) Pais")
+    print("4.) Ciudad")
+    print("5.) Celular")
+    print("6.) Fecha")
+    print("7.) NTARJETA")
+    print("8.) ESTADO")
+    print("9.) Salir")
+
+def MenuPlanes(): #este menu es llamado cuando se requiere que se vean los atributos de PLANES para elegir alguno de ellos
+    print("1.) Nombre")
+    print("2.) Valor")
+    print("3.) Cantidad Canciones")
+    print("4.) Salir")
     
-                 
-except:
-    pass
 
-try:
-    
-    lector.execute("CREATE TABLE PLANES (CODIGO CHAR(4) PRIMARY KEY, NOMBRE VARCHAR(30)not null, VALOR INTEGER(6)not null, CANTIDAD INTEGER(6)not null)ON DELETE CASCADE ON UPDATE CASCADE)")
-except:
-    pass
-
-
-try:
-    #la tabla lista es una tabla que posee dos llaves foraneas como llave primaria compuesta.
-    lector.execute("CREATE TABLE LISTA (IDCLIENTE CHAR(10), IDCANCION CHAR(6),CONSTRAINT ID PRIMARY KEY (IDCLIENTE,IDCANCION),CONSTRAINT FK_CLIENTE FOREIGN KEY (IDCLIENTE)REFERENCES CLIENTES(CEDULA),CONSTRAINT FK_CANCION FOREIGN KEY (IDCANCION)REFERENCES CANCIONES(CODIGO))")
-except:
-    pass
-try:
-    lector.execute("CREATE TABLE PLANESCLIENTE (IDCEDULA CHAR(10) PRIMARY KEY,IDPLAN CHAR(4),CONSTRAINT FK_CLIENTE FOREIGN KEY (IDCEDULA)REFERENCES CLIENTES(CEDULA),CONSTRAINT FK_PLAN FOREIGN KEY (IDPLAN)REFERENCES PLANES(CODIGO))")
-except:
-    pass
-
-condition = True
-os.system('cls')
-while condition ==  True:
-
-    opcion =FMenus.Menu() #llama a la primera funcion de menu que usaremos 
-
-    if (opcion == 1):
-        objCancion = funciones.Cancion(database)
-        opcion1 = FMenus.MenuOpcionesCanciones() #el menu opciones tiene las mismas 4 opciones para cada una de las tablas (añadir,borrar,modificar,consultar)
-
-        if (opcion1 == 1):
-            #objCancion.AñadirCanciones(objCancion.IngresarDatosCancion())
-            objCancion.SetCodigo()
-            objCancion.SetNombre()
-            objCancion.SetGenero()
-            objCancion.SetAlbum()
-            objCancion.SetInterprete()
-            objCancion.AñadirCanciones(objCancion.TuplaCancion())
-        elif (opcion1 == 2):
-            objCancion.SetCodigo()
-            objCancion.ModificarCanciones()
-        elif (opcion1 == 3):
-                objCancion.ConsultarCanciones()
-        elif (opcion1 == 4):
-                pass
-        else:
-                print("Opcion no valida.1")
-
-    if (opcion == 2):
-        objCliente = funciones.Cliente(database)
-        opcion1 = FMenus.MenuOpciones()
-
-        if (opcion1 == 1):
-                #objCliente.AñadirClientes(objCliente.IngresarDatosCliente())
-            objCliente.SetCedula()
-            objCliente.SetNombre()
-            objCliente.SetApellido()
-            objCliente.SetPais()
-            objCliente.SetCiudad()
-            objCliente.SetCelular()
-            objCliente.SetFecha()
-            objCliente.SetTarjeta()
-            objCliente.SetEstado()
-            objCliente.SetPlan()
-            objCliente.AñadirClientes(objCliente.TuplaCliente())
-        elif (opcion1 == 2):
-            objCliente.SetCedula()
-            objCliente.BorrarClientes()
-        elif (opcion1 == 3):
-            objCliente.SetCedula()
-            objCliente.ModificarClientes()
-        elif (opcion1 == 4):
-            objCliente.ConsultarClientes()
-        elif (opcion1 == 5):
-                pass
-        else:
-                print("Opcion no valida.2")
-
-    if (opcion == 3):
-        objPlan = funciones.Plan(database)
-        opcion1 = FMenus.MenuOpciones()
-
-        if (opcion1 == 1):
-            objPlan.SetCodigo()
-            objPlan.SetNombre()
-            objPlan.SetValor()
-            objPlan.SetCantidad()
-            objPlan.AñadirPlanes(objPlan.TuplaPlan())
-        elif (opcion1 == 2):
-            objPlan.SetCodigo()
-            objPlan.BorrarPlanes()
-        elif (opcion1 == 3):
-            objPlan.SetCodigo()
-            objPlan.ModificarPlanes()
-        elif (opcion1 == 4):
-            objPlan.ConsultarPlanes()
-        elif (opcion1 == 5):
-                pass
-        else:
-                print("Opcion no valida.3")
-
-    if (opcion == 4):
-        objLista = funciones.Lista(database)
-        opcion1 = FMenus.MenuLista() #la lista tiene un menu diferente sin la opcion modificar puesto que solo admite añadir,borrar y consultar.
-
-        if (opcion1 == 1):
-            objLista.SetCedula()
-            objLista.SetCodigo()
-            objLista.AñadirCancionLista()
-        elif (opcion1 == 2):
-            objLista.SetCedula()
-            objLista.SetCodigo()
-            objLista.BorrarCancionesLista()
-        elif (opcion1 == 3):
-            objLista.ConsultarLista()
-        elif (opcion1 == 4):
-            objLista.SetCedula()
-            objLista.ReproducirCancion()
-        elif (opcion1 == 5):
-                pass
-        else:
-                print("Opcion no valida.4")
-
-    elif (opcion == 5):
-        objPlanCliente = funciones.PlanesPorCliente(database)
-        opcion1 = FMenus.MenuPlanesCliente() #la lista tiene un menu diferente sin la opcion modificar puesto que solo admite añadir,borrar y consultar.
-        if (opcion1 == 1):
-            objPlanCliente.SetCedula()
-            objPlanCliente.AsignarPlan()
-        elif (opcion1 == 2):
-            objPlanCliente.ConsultarPlan()
-        elif (opcion1 == 3):
-                pass
-    elif (opcion == 6):
-        condition =(FMenus.Salir)
-
-    else:
+def ImprimirTabla(tabla): # Esta funcion se usa para mostrar los atributos de las tablas antes de mostrar los campos
+    if (tabla == "CANCIONES"):
+        print("CODIGO"," ","NOMBRE"," ","GENERO"," ","ALBUM"," ","INTERPRETE")
+        print("")
+        print("")
+    if (tabla == "CLIENTES"):
+        print("CEDULA"," ","NOMBRE"," ","APELLIDO"," ","PAIS","CIUDAD","CELULAR","FECHA","NTARJETA","ESTADO")
+        print("")
+        print("")
+    if (tabla == "PLANES"):
+        print("CODIGO"," ","NOMBRE"," ","VALOR"," ","CANTIDAD")
+        print("")
+        print("")
+    if (tabla == "LISTA"):
+        print("IDCLIENTE"," ","IDCANCION")
+        print("")
         print("")
 
-    
-
-database.commit()
-database.close()
+def Salir(): #funcion para salir, si la persona desea salir convierte condition en false y lo envia a menu para que termine la ejecucion
+    condition = True
+    salida = input("Esta seguro que desea salir Y|N: ")
+    if (salida == "Y"):
+        condition = False
+    else:
+        pass
+    return condition
